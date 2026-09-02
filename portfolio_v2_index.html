@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>kenyuiyui — 作品索引</title>
+<meta name="description" content="kenyuiyui 的作品索引：個人開發的小工具列表，含技術規格與連結。">
+<meta name="author" content="kenyuiyui">
+<meta name="theme-color" content="#f7f6f2">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://kenyuiyui.github.io/">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[
+  {"@type":"Person","@id":"https://kenyuiyui.github.io/#person","name":"kenyuiyui","url":"https://kenyuiyui.github.io/","sameAs":["https://github.com/kenyuiyui"]},
+  {"@type":"ItemList","name":"Projects","itemListElement":[
+    {"@type":"ListItem","position":1,"url":"https://kenyuiyui.github.io/projects/voice-cards.html","name":"語音卡片筆記"}
+  ]}
+]}
+</script>
+<style>
+  :root{
+    --bg:#f7f6f2;
+    --line:#d8d5cc;
+    --ink:#1c1b18;
+    --ink-soft:#6b6a62;
+    --ink-faint:#a3a196;
+    --accent:#06c755;
+    --mono:"IBM Plex Mono","SF Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;background:var(--bg);color:var(--ink);
+    font-family:"Noto Sans TC","PingFang TC",-apple-system,sans-serif;
+    line-height:1.6;
+  }
+  .shell{max-width:760px;margin:0 auto;padding:0 22px;}
+  a{color:inherit;}
+
+  header{padding:56px 0 40px;border-bottom:1px solid var(--line);}
+  .who{font-size:14px;color:var(--ink-soft);margin:0 0 6px;}
+  h1{font-size:22px;margin:0;font-weight:600;}
+  .who-links{margin-top:14px;display:flex;gap:16px;font-size:13px;}
+  .who-links a{color:var(--ink-soft);text-decoration:none;border-bottom:1px solid transparent;}
+  .who-links a:hover{color:var(--ink);border-bottom-color:var(--ink);}
+
+  .list-head{
+    display:grid;grid-template-columns:2.4fr 1.6fr 3fr auto;gap:16px;
+    padding:14px 0;border-bottom:1px solid var(--line);
+    font-size:11.5px;color:var(--ink-faint);font-family:var(--mono);
+    text-transform:lowercase;
+  }
+  .project-row{
+    display:grid;grid-template-columns:2.4fr 1.6fr 3fr auto;gap:16px;
+    padding:22px 0;border-bottom:1px solid var(--line);
+    align-items:start;
+    text-decoration:none;color:inherit;
+  }
+  .project-row:hover .p-name{color:var(--accent);}
+  .p-name{font-size:16px;font-weight:600;transition:color .12s ease;}
+  .p-year{font-size:12.5px;color:var(--ink-faint);margin-top:4px;font-family:var(--mono);}
+  .p-specs{font-size:13px;color:var(--ink-soft);}
+  .p-tags{display:flex;flex-direction:column;gap:4px;font-size:11.5px;color:var(--ink-faint);font-family:var(--mono);}
+  .p-status{
+    display:inline-flex;align-items:center;gap:6px;
+    font-size:12px;color:var(--ink-soft);white-space:nowrap;padding-top:2px;
+  }
+  .p-status::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--accent);}
+
+  footer{padding:40px 0 60px;font-size:12.5px;color:var(--ink-faint);}
+
+  @media (max-width:640px){
+    .list-head{display:none;}
+    .project-row{grid-template-columns:1fr;gap:8px;padding:20px 0;}
+    .p-status{padding-top:0;}
+  }
+</style>
+</head>
+<body>
+
+<div class="shell">
+  <header>
+    <p class="who">kenyuiyui</p>
+    <h1>作品索引</h1>
+    <div class="who-links">
+      <a href="https://github.com/kenyuiyui" target="_blank" rel="noopener noreferrer">GitHub</a>
+    </div>
+  </header>
+
+  <div class="list-head">
+    <span>project</span>
+    <span>status</span>
+    <span>spec</span>
+    <span></span>
+  </div>
+
+  <div id="project-list"></div>
+
+  <footer>© 2026 kenyuiyui · 個人專案，持續維護中</footer>
+</div>
+
+<script>
+  // 資料驅動渲染：以後加新作品，只要在這個陣列裡多加一筆物件即可，
+  // 不需要手動複製貼上整段 HTML 區塊。
+  const PROJECTS = [
+    {
+      name: "語音卡片筆記",
+      year: "2026",
+      status: "使用中",
+      spec: "純前端 LINE LIFF · 15 秒自動切段轉寫 · 3 種發送方式 · 0 後端伺服器",
+      tags: ["JavaScript", "LIFF SDK", "Groq Whisper"],
+      href: "projects/voice-cards.html"
+    }
+  ];
+
+  const list = document.getElementById('project-list');
+  list.innerHTML = PROJECTS.map(p => `
+    <a class="project-row" href="${p.href}">
+      <div>
+        <div class="p-name">${p.name}</div>
+        <div class="p-year">${p.year}</div>
+      </div>
+      <div class="p-status">${p.status}</div>
+      <div class="p-specs">${p.spec}</div>
+      <div class="p-tags">${p.tags.map(t => `<span>${t}</span>`).join('')}</div>
+    </a>
+  `).join('');
+</script>
+
+</body>
+</html>

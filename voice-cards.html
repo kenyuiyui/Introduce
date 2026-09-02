@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>語音卡片筆記 — kenyuiyui</title>
+<meta name="description" content="語音卡片筆記：純前端 LINE LIFF 語音筆記工具，即時轉寫成文字卡片。技術規格、資安措施、使用限制一覽。">
+<meta name="author" content="kenyuiyui">
+<meta name="theme-color" content="#f7f6f2">
+<link rel="canonical" href="https://kenyuiyui.github.io/projects/voice-cards.html">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication",
+ "name":"語音卡片筆記","url":"https://kenyuiyui.github.io/-LINE_LIFF/",
+ "applicationCategory":"UtilitiesApplication","operatingSystem":"Web",
+ "offers":{"@type":"Offer","price":"0","priceCurrency":"TWD"},
+ "author":{"@type":"Person","name":"kenyuiyui","url":"https://kenyuiyui.github.io/"}}
+</script>
+<style>
+  :root{
+    --bg:#f7f6f2;
+    --line:#d8d5cc;
+    --ink:#1c1b18;
+    --ink-soft:#6b6a62;
+    --ink-faint:#a3a196;
+    --accent:#06c755;
+    --accent-dim:#04a047;
+    --warn:#a3690f;
+    --warn-bg:#f3ead9;
+    --mono:"IBM Plex Mono","SF Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;background:var(--bg);color:var(--ink);
+    font-family:"Noto Sans TC","PingFang TC",-apple-system,sans-serif;
+    line-height:1.65;
+  }
+  .shell{max-width:720px;margin:0 auto;padding:0 22px;}
+  a{color:inherit;}
+
+  .breadcrumb{
+    padding:28px 0 0;font-size:12.5px;color:var(--ink-faint);font-family:var(--mono);
+  }
+  .breadcrumb a{color:var(--ink-soft);text-decoration:none;}
+  .breadcrumb a:hover{color:var(--ink);}
+
+  header{padding:20px 0 32px;border-bottom:1px solid var(--line);}
+  h1{font-size:26px;margin:0 0 10px;font-weight:700;}
+  .tagline{font-size:15px;color:var(--ink-soft);margin:0 0 20px;max-width:52ch;}
+  .header-actions{display:flex;flex-wrap:wrap;gap:10px;}
+  .btn{
+    display:inline-block;padding:10px 18px;border-radius:9px;font-size:13.5px;font-weight:600;
+    text-decoration:none;
+  }
+  .btn-primary{background:var(--accent);color:#08170f;}
+  .btn-secondary{background:transparent;border:1px solid var(--line);color:var(--ink);}
+
+  .section{padding:36px 0;border-bottom:1px solid var(--line);}
+  .section h2{
+    font-size:12.5px;text-transform:uppercase;letter-spacing:0.06em;
+    color:var(--ink-faint);font-weight:700;margin:0 0 20px;font-family:var(--mono);
+  }
+
+  /* 規格表：定義列表，技術文件調性 */
+  dl.spec-table{margin:0;display:grid;grid-template-columns:1fr;gap:0;}
+  dl.spec-table > div{
+    display:grid;grid-template-columns:140px 1fr;gap:16px;
+    padding:12px 0;border-bottom:1px dashed var(--line);
+  }
+  dl.spec-table > div:last-child{border-bottom:none;}
+  dl.spec-table dt{font-size:13px;color:var(--ink-faint);font-family:var(--mono);}
+  dl.spec-table dd{margin:0;font-size:14px;color:var(--ink);}
+
+  /* 功能清單 */
+  .feature-list{margin:0;padding:0;list-style:none;}
+  .feature-list li{
+    padding:14px 0;border-bottom:1px dashed var(--line);
+    display:grid;grid-template-columns:180px 1fr;gap:16px;
+  }
+  .feature-list li:last-child{border-bottom:none;}
+  .feature-list .f-name{font-size:14px;font-weight:600;}
+  .feature-list .f-desc{font-size:13.5px;color:var(--ink-soft);}
+
+  /* 資安清單 */
+  .sec-list{margin:0;padding:0;list-style:none;}
+  .sec-list li{padding:10px 0;font-size:13.5px;color:var(--ink-soft);
+    padding-left:18px;position:relative;}
+  .sec-list li::before{
+    content:'';position:absolute;left:0;top:17px;width:6px;height:6px;
+    border-radius:50%;background:var(--accent);
+  }
+
+  /* 限制揭露 */
+  .limits{background:var(--warn-bg);border-radius:10px;padding:18px 20px;}
+  .limits ul{margin:0;padding-left:18px;font-size:13.5px;color:#5c4a26;}
+  .limits li{margin-bottom:8px;}
+  .limits li:last-child{margin-bottom:0;}
+
+  footer{padding:32px 0 60px;font-size:12.5px;color:var(--ink-faint);}
+</style>
+</head>
+<body>
+
+<div class="shell">
+  <p class="breadcrumb"><a href="../index.html">作品索引</a> / 語音卡片筆記</p>
+
+  <header>
+    <h1>語音卡片筆記</h1>
+    <p class="tagline">說話就能變成一張一張的文字卡片。掛在 LINE 裡的個人語音筆記工具，講出來的話即時整理成可編輯的卡片。</p>
+    <div class="header-actions">
+      <a class="btn btn-primary" href="https://kenyuiyui.github.io/-LINE_LIFF/" target="_blank" rel="noopener noreferrer">立即使用</a>
+      <a class="btn btn-secondary" href="https://github.com/kenyuiyui/-LINE_LIFF" target="_blank" rel="noopener noreferrer">原始碼</a>
+    </div>
+  </header>
+
+  <section class="section">
+    <h2>Overview</h2>
+    <dl class="spec-table">
+      <div><dt>類型</dt><dd>個人專案 · 免費 · 非商用</dd></div>
+      <div><dt>平台</dt><dd>LINE LIFF（純前端網頁，掛載於 LINE 官方帳號）</dd></div>
+      <div><dt>技術棧</dt><dd>Vanilla JavaScript · LIFF SDK · MediaRecorder API · Groq Whisper API · opencc-js</dd></div>
+      <div><dt>架構</dt><dd>單一 HTML 檔案，無後端伺服器，資料存於使用者本機 localStorage</dd></div>
+      <div><dt>狀態</dt><dd>使用中，持續依回饋調整</dd></div>
+    </dl>
+  </section>
+
+  <section class="section">
+    <h2>Specs</h2>
+    <dl class="spec-table">
+      <div><dt>轉寫模型</dt><dd>whisper-large-v3-turbo（Groq API）</dd></div>
+      <div><dt>分段間隔</dt><dd>15 秒自動切段送出，卡片陸續生成</dd></div>
+      <div><dt>發送方式</dt><dd>3 種：送回聊天室 / LINE 好友分享 / 系統分享</dd></div>
+      <div><dt>編輯模式</dt><dd>3 種：合併句子 / 調整順序 / 修改內容</dd></div>
+      <div><dt>語言處理</dt><dd>內建簡轉繁保險（opencc-js）</dd></div>
+      <div><dt>存取控制</dt><dd>好友身份驗證（liff.getFriendship）+ 使用須知同意閘門</dd></div>
+    </dl>
+  </section>
+
+  <section class="section">
+    <h2>Features</h2>
+    <ul class="feature-list">
+      <li><span class="f-name">即時錄音轉寫</span><span class="f-desc">講話同時卡片陸續生成，不用等整段錄完</span></li>
+      <li><span class="f-name">卡片草稿持久化</span><span class="f-desc">自動儲存在本機，誤觸返回或切出頁面不怕內容消失</span></li>
+      <li><span class="f-name">共用裝置清除工具</span><span class="f-desc">一鍵清除本機 API 金鑰與卡片內容</span></li>
+      <li><span class="f-name">發送前預覽</span><span class="f-desc">模擬對話氣泡呈現，確認內容再送出</span></li>
+    </ul>
+  </section>
+
+  <section class="section">
+    <h2>Security</h2>
+    <ul class="sec-list">
+      <li>Content-Security-Policy，限制外部資源來源網域</li>
+      <li>關鍵 CDN 套件加上 SRI 完整性驗證，防範供應鏈攻擊</li>
+      <li>使用前需通過好友身份驗證與使用須知同意，未通過無法進入主功能</li>
+      <li>連結欄位與使用者輸入內容皆經過 HTML 跳脫處理，避免 XSS</li>
+    </ul>
+  </section>
+
+  <section class="section" style="border-bottom:none;">
+    <h2>Limitations</h2>
+    <div class="limits">
+      <ul>
+        <li>需自行申請免費 Groq API Key，金鑰與卡片內容存於使用者裝置瀏覽器</li>
+        <li>語音內容會上傳至 Groq 雲端進行轉寫，原始音檔不保留</li>
+        <li>不建議用於機密或高度敏感內容（商業機密、他人個資、密碼等）</li>
+        <li>個人維護，無正式客服或服務保證，可能因故調整或中止</li>
+      </ul>
+    </div>
+  </section>
+
+  <footer>© 2026 kenyuiyui · <a href="../index.html" style="color:var(--ink-faint);">回作品索引</a></footer>
+</div>
+
+</body>
+</html>
